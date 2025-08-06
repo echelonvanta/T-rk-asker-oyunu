@@ -1,4 +1,4 @@
-JJ Players = game:GetService("Players")
+local Players = game:GetService("Players")
 local TextChatService = game:GetService("TextChatService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
@@ -103,7 +103,7 @@ titleBar.Active = true
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 1, 0)
 title.BackgroundTransparency = 1
-title.Text = "JJ"
+title.Text = "Echelon JJ"
 title.TextColor3 = Color3.fromRGB(100, 200, 255)
 title.TextSize = 18
 title.Font = Enum.Font.GothamBlack
@@ -296,5 +296,4 @@ end)
 createButton("Durdur", Color3.fromRGB(60, 20, 20), function()
     stopRequested = true
     isRunning = false
-
 end)
