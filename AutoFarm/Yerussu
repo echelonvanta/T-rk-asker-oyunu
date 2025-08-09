@@ -1,0 +1,74 @@
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local StarterGui = game:GetService("StarterGui")
+
+local player = Players.LocalPlayer
+
+local mainPlaceId = 3231515867
+local undergroundBaseId = 6912384795
+
+local function notify(message)
+    StarterGui:SetCore("SendNotification", {
+        Title = "AutoFarm",
+        Text = message,
+        Duration = 5,
+    })
+    print("[Notification] " .. message)
+end
+
+local function teleportToPlace(placeId)
+    notify("Teleport ediliyor: " .. tostring(placeId))
+    TeleportService:Teleport(placeId, player)
+end
+
+local function clearBotFolder()
+    notify("20 saniye bekleniyor, sonra Botlar klasörü silinecek...")
+    wait(20)
+
+    local botsFolder = workspace:FindFirstChild("Botlar")
+    if not botsFolder then
+        notify("Botlar klasörü bulunamadı.")
+        return false
+    end
+
+    notify("Botlar klasörü siliniyor...")
+    botsFolder:Destroy()
+    notify("Botlar klasörü silindi.")
+    return true
+end
+
+local function undergroundFarmCycle()
+    while true do
+        notify("Alt üsse ulaşıldı. Botlar 20 saniye sonra silinecek.")
+        local cleared = clearBotFolder()
+        if cleared then
+            notify("Botlar klasörü silindi. 120 saniye bekleniyor.")
+            wait(120)
+            notify("120 saniye geçti. Ana üsse teleport olunuyor.")
+            teleportToPlace(mainPlaceId)
+            break -- Teleport olunca döngüyü durdur
+        else
+            notify("Botlar klasörü silinemedi veya bulunamadı.")
+            wait(5) -- Klasör yoksa 5 sn bekle tekrar dene
+        end
+    end
+end
+
+while true do
+    local currentPlaceId = game.PlaceId
+
+    if currentPlaceId == mainPlaceId then
+        notify("Ana oyundasınız. Hemen alt üsse teleport olunacak.")
+        teleportToPlace(undergroundBaseId)
+        break -- Teleport olunca döngüyü durdur
+
+    elseif currentPlaceId == undergroundBaseId then
+        undergroundFarmCycle()
+        -- undergroundFarmCycle içindeki teleport olunca break var, buraya gelmez
+
+    else
+        notify("Şu anda ne ana oyundayız ne de alt üssteyiz. 10 saniye bekleniyor.")
+        wait(10)
+    end
+    wait(1)
+end
