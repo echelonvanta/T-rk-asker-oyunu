@@ -1,74 +1,59 @@
-local Players = game:GetService("Players")
-local TeleportService = game:GetService("TeleportService")
-local StarterGui = game:GetService("StarterGui")
+local P=game:GetService("Players")
+local T=game:GetService("TeleportService")
+local S=game:GetService("StarterGui")
 
-local player = Players.LocalPlayer
+local p=P.LocalPlayer
+local m=3231515867
+local u=6912384795
 
-local mainPlaceId = 3231515867
-local undergroundBaseId = 6912384795
-
-local function notify(message)
-    StarterGui:SetCore("SendNotification", {
-        Title = "AutoFarm",
-        Text = message,
-        Duration = 5,
-    })
-    print("[Notification] " .. message)
+local function n(m)
+ S:SetCore("SendNotification",{Title="AutoFarm",Text=m,Duration=5})
+ print("[Notification] "..m)
 end
 
-local function teleportToPlace(placeId)
-    notify("Teleport ediliyor: " .. tostring(placeId))
-    TeleportService:Teleport(placeId, player)
+local function t(i)
+ n("Teleport ediliyor: "..tostring(i))
+ T:Teleport(i,p)
 end
 
-local function clearBotFolder()
-    notify("20 saniye bekleniyor, sonra Botlar klasörü silinecek...")
-    wait(20)
-
-    local botsFolder = workspace:FindFirstChild("Botlar")
-    if not botsFolder then
-        notify("Botlar klasörü bulunamadı.")
-        return false
-    end
-
-    notify("Botlar klasörü siliniyor...")
-    botsFolder:Destroy()
-    notify("Botlar klasörü silindi.")
-    return true
+local function c()
+ n("20 saniye bekleniyor, sonra Botlar klasörü silinecek...")
+ wait(20)
+ local b=workspace:FindFirstChild("Botlar")
+ if not b then n("Botlar klasörü bulunamadı.") return false end
+ n("Botlar klasörü siliniyor...")
+ b:Destroy()
+ n("Botlar klasörü silindi.")
+ return true
 end
 
-local function undergroundFarmCycle()
-    while true do
-        notify("Alt üsse ulaşıldı. Botlar 20 saniye sonra silinecek.")
-        local cleared = clearBotFolder()
-        if cleared then
-            notify("Botlar klasörü silindi. 120 saniye bekleniyor.")
-            wait(120)
-            notify("120 saniye geçti. Ana üsse teleport olunuyor.")
-            teleportToPlace(mainPlaceId)
-            break -- Teleport olunca döngüyü durdur
-        else
-            notify("Botlar klasörü silinemedi veya bulunamadı.")
-            wait(5) -- Klasör yoksa 5 sn bekle tekrar dene
-        end
-    end
+local function f()
+ while true do
+  n("Alt üsse ulaşıldı. Botlar 20 saniye sonra silinecek.")
+  if c() then
+   n("Botlar klasörü silindi. 120 saniye bekleniyor.")
+   wait(120)
+   n("120 saniye geçti. Ana üsse teleport olunuyor.")
+   t(m)
+   break
+  else
+   n("Botlar klasörü silinemedi veya bulunamadı.")
+   wait(5)
+  end
+ end
 end
 
 while true do
-    local currentPlaceId = game.PlaceId
-
-    if currentPlaceId == mainPlaceId then
-        notify("Ana oyundasınız. Hemen alt üsse teleport olunacak.")
-        teleportToPlace(undergroundBaseId)
-        break -- Teleport olunca döngüyü durdur
-
-    elseif currentPlaceId == undergroundBaseId then
-        undergroundFarmCycle()
-        -- undergroundFarmCycle içindeki teleport olunca break var, buraya gelmez
-
-    else
-        notify("Şu anda ne ana oyundayız ne de alt üssteyiz. 10 saniye bekleniyor.")
-        wait(10)
-    end
-    wait(1)
+ local i=game.PlaceId
+ if i==m then
+  n("Ana oyundasınız. Hemen alt üsse teleport olunacak.")
+  t(u)
+  break
+ elseif i==u then
+  f()
+ else
+  n("Şu anda ne ana oyundayız ne de alt üssteyiz. 10 saniye bekleniyor.")
+  wait(10)
+ end
+ wait(1)
 end
