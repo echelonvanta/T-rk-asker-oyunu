@@ -1,0 +1,97 @@
+local a,b,c,d,e,f=game:GetService("Players"),game:GetService("VirtualInputManager"),game:GetService("Lighting"),game:GetService("TweenService"),game:GetService("TeleportService"),nil
+local g=a.LocalPlayer
+local h,i=3231515867,6912372358
+for _,j in pairs(c:GetChildren())do if j:IsA("BlurEffect")then j.Enabled=false end end
+f=Instance.new("ScreenGui")
+f.Name="AutoFarmGUI"
+f.Parent=game.CoreGui
+local k=Instance.new("TextLabel")
+k.Size=UDim2.new(0,250,0,30)
+k.Position=UDim2.new(0,10,0,10)
+k.BackgroundTransparency=1
+k.TextColor3=Color3.new(1,1,1)
+k.Font=Enum.Font.SourceSansBold
+k.TextSize=18
+k.Text="Bekleniyor..."
+k.Parent=f
+local function l(m,n)
+ local o=g.Character
+ if o and o:FindFirstChild("HumanoidRootPart") and o:FindFirstChildOfClass("Humanoid")then
+  local p=o:FindFirstChildOfClass("Humanoid")
+  local q=o.HumanoidRootPart
+  p.Jump=true wait(0.5)
+  local r=TweenInfo.new(n,Enum.EasingStyle.Linear)
+  local s=d:Create(q,r,{CFrame=CFrame.new(m)})
+  s:Play()
+  s.Completed:Wait()
+ end
+end
+local function t(u)
+ local v=tick()
+ while tick()-v<u do
+  for _,w in pairs(game:GetDescendants())do
+   if w:IsA("Humanoid") and w.Health>0 and w.Parent.Name~=g.Name then w.Health=0 end
+  end
+  wait(0.3)
+ end
+end
+local function x(y,z)
+ for A=y,1,-1 do
+  z.Text="Bekleniyor... "..A.." saniye"
+  wait(1)
+ end
+end
+local function B()
+ local C=g:WaitForChild("PlayerGui")
+ local D=C:WaitForChild("Operasyon")
+ D.Enabled=true
+ local E=D:WaitForChild("Operasyon")
+ E.Visible=true
+ task.wait(0.5)
+ local F=E:WaitForChild("ScrollingFrame")
+ local G=F:WaitForChild("Çöl Şehri")
+ local H=G:WaitForChild("Button")
+ local I=H.AbsolutePosition
+ local J=H.AbsoluteSize
+ local K=I.X+J.X/2
+ local L=I.Y+J.Y/2
+ local M=30
+ b:SendMouseButtonEvent(K,L+M,0,true,game,0)
+ task.wait(0.1)
+ b:SendMouseButtonEvent(K,L+M,0,false,game,0)
+ task.wait(5)
+ local N,O=575.49+15,266.63+35
+ b:SendMouseButtonEvent(N,O,0,true,game,0)
+ task.wait(0.1)
+ b:SendMouseButtonEvent(N,O,0,false,game,0)
+end
+local P=Vector3.new(321.13,3.63,11.17)
+local Q=Vector3.new(752,3.35,-46.6)
+while true do
+ if game.PlaceId==h then
+  k.Text="Ana Üstesin, butonlar tıklanıyor..."
+  B()
+  k.Text="Buton tıklama tamamlandı, farming bekleniyor..."
+  wait(10)
+ elseif game.PlaceId==i then
+  k.Text="Çöl Şehri'ndesin, farming başlıyor..."
+  x(15,k)
+  k.Text="Hedef 1'e gidiliyor..."
+  l(P,5)
+  k.Text="Hedef 1'de NPC öldürülüyor..."
+  t(5)
+  x(2,k)
+  k.Text="Hedef 2'ye gidiliyor..."
+  l(Q,5)
+  k.Text="Hedef 2'de NPC öldürülüyor..."
+  t(5)
+  k.Text="Ana üsse ışınlanmadan önce bekleniyor..."
+  wait(5)
+  k.Text="Ana üsse ışınlanılıyor..."
+  e:Teleport(h,g)
+  wait(10)
+ else
+  k.Text="Bilinmeyen yerde bekleniyor..."
+  wait(5)
+ end
+end
